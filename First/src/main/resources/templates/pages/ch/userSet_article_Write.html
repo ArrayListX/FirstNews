@@ -1,0 +1,244 @@
+<!-- Horizontal Form -->
+<div id="personalDate">
+	<ol class="am-breadcrumb  am-breadcrumb-slash">
+		 <li class="am-active am-icon-home">个人主页</li>
+		<li class="am-active">文章管理</li>
+	</ol>
+
+	<!-- /.box-header -->
+	<!-- form start -->
+	<form class="form-horizontal">
+		<div class="box-body">
+			<div class="emailTable">
+				<label for="title">标题：</label>
+				 <input class="articleTitle" type="text"
+					id="title" placeholder="填输入你的文章标题">
+				<hr data-am-widget="divider" style=""
+					class="am-divider am-divider-default" />
+			</div>
+                        <div class="headPortrait">
+                            <img id="headPortrait" src="http://localhost:1011/1569147009205_201907101646003266600737510.gif"/>
+                        </div>
+                        <div class="headChange">
+                            <div class="headPortraitChange">
+                                <input type="file" name="file" id="file" onchange="uploadImage(this);"/>
+                                <a>添加图片</a>
+                            </div>
+
+                    </div>
+                        	
+			<div class="emailTable">
+				<label id="typeId">类别：
+				<select id="select_type">	<!-- *******************添加id属性 -->
+						<option value="0">请选择类别</option>
+						<option value="1">图片</option>
+						<option value="2">科技</option>
+						<option value="3">娱乐</option>
+						<option value="4">游戏</option>
+						<option value="5">体育</option>
+						<option value="6">汽车</option>
+						<option value="7">财经</option>
+						<option value="8">搞笑</option>
+						<option value="9">军事</option>
+						<option value="10">国际</option>
+						<option value="11">时尚</option>
+						<option value="12">旅游</option>
+						<option value="13">探索</option>
+						<option value="14">育儿</option>
+						<option value="15">养生</option>
+						<option value="16">美文</option>
+						<option value="17">历史</option>
+						<option value="18">美食</option>
+					</select>
+					</label>
+				<hr data-am-widget="divider" style=""
+					class="am-divider am-divider-default" />
+			</div>
+				
+			<div class="emailTable">
+					<label for="content">内容：</label> 
+						 <textarea class="formInputArticle" type="text"
+					id="content" placeholder="填输入你的文章" style="width: 50%; height: 400px;"/>
+					<hr data-am-widget="divider"
+						class="am-divider am-divider-default" />
+						
+				</div>
+
+			<!-- <div class="form-group">
+				<label for="comTime" class="col-sm-2 control-label">文章内容：</label>
+				<div class="col-sm-10">
+					<textarea type="text" class="form-control" name="id" id="artCon"
+						placeholder="(空)" style="width: 100%; height: 500px;" />
+				</div>
+			</div> -->
+		</div>
+		<!-- /.box-body -->
+		<div class="box-footer">
+			<button style="float: right" type="button"
+				class="btn btn-default btn-cancel">返回</button>
+			<button style="float: right" type="button"
+				class="btn btn-default btn-save">发表</button>
+		</div>
+		<!-- /.box-footer -->
+	</form>
+</div>
+<script type="text/javascript">
+	$(function(){
+		//初始化
+		doLoadNewsArticle();
+		 $(".box-footer").on("click",".btn-cancel",doCancel)
+		 $(".box-footer").on("click",".btn-save",doSaveObject)
+	/*  doSaveObject(); */
+	});
+	function uploadImage(obj) {
+    	//console.log("obj="+obj)
+    	var f = $(obj).val();
+    	//console.log("f="+f);
+ 
+    	if(f == null ||f == undefined || f == ""){
+        	return false;
+    	}
+    	if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f)){
+        	alert("类型必须是图片（.png|jpg|bmp|gif|PNG|JPG|BMP|GIF）");
+        	$(obj).val("");
+        	return false;
+    	}
+    	var formData = new FormData();
+        // debugger
+       	//console.log($(obj)[0].files[0])
+       	formData.append("file",$("#file")[0].files[0]);
+       	 var formData = new FormData();
+        // debugger
+       console.log($(obj)[0].files[0])
+       var files = $("#file")[0].files;
+       for(var i=0;i<files.length;i++){
+           formData.append("file",$("#file")[0].files[i]);
+       } 
+       	$.ajax({
+            type:"POST",
+            url :"/article/uploadimg",
+            data : formData,
+            cache : false,
+            processData : false,    //JQuery不处理发送数据
+            // contentType : 'multipart/form-data',//（如果这样，会导致contentType没有边界boundary，导致文件解析失败，后台报错Could not parse multipart servlet request;）
+            contentType : false,
+            success : function(result) {
+            	console.log(result);
+                if(result.state == 1) {
+                    console.log(result.data);
+                    alert("图片上传成功");
+                   $("#headPortrait").prop("src",result.data);
+                }
+            }
+        });
+	} 
+
+	//初始化方法定义
+	function doLoadNewsArticle(){
+		var id = $("#mainContentId").data("data");	
+		var param = {"id":id};
+
+		var url="article/doFindObjectById";
+		
+		 $.getJSON(url,param,function(result){
+			 doInitEditPageData(result);			 
+		 });
+		 }
+
+//初始化页面	
+	function doInitEditPageData(result){
+		//初始化信息
+		$("#title").val(result.data.title);
+		selectCheckedBox(result.data.typeId);
+	    $("#content").val(result.data.content); 	    	  	    		 
+	 } 
+	 
+	 //设置选中框
+	 function selectCheckedBox(num){
+		//获取select中所有option的值
+		   var arr = getSelectOption();	     	   
+		   //遍历会回显数据
+		    for(var i = 0;i < arr.length;i++){
+			  if(arr[i]==num){
+		 		  $("#select_type option[value='"+arr[i]+"']").attr("selected","true");
+				  break;
+			  }
+		   }
+	 }
+	//遍历显示option
+	function getSelectOption(){
+		var array = new Array();  //定义数组存放放内容
+		$("#select_type option").each(function(){
+			var txt = $(this).val();//123456
+			if(txt!=''){
+				array.push(txt);
+			}
+		})
+		return array;
+	}
+	 function imgChange(obj,id){
+			file = document.getElementById("headPortrait");
+		    var files = obj.files;
+		    img = new Image();
+		    if(window.URL){
+		        //File API
+		        img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
+		        img.onload = function(e) {
+		        window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
+		        }
+		    }
+		    file.src=img.src;
+		    //上传文件
+		     var fd = new FormData(),//实例化一个表单
+		     xhr = new XMLHttpRequest();
+		     fd.append('headimg', files[0]);//追加图片元素
+		} 
+	function doGetEditFormData(){
+		
+		 //获取用户输入的数据
+		/*  alert($("#typeId").val());
+		 alert($("#title").val());
+		 alert($("#content").val()); */
+		 var id = $("#mainContentId").data("data");	
+		 var params={
+			typeId:$("#select_type").val(),	 
+		    title:$("#title").val(),
+		    content:$("#content").val(),
+		    "id":id,
+		    username:document.cookie.split(";")[2].split("=")[1],
+		    img:$('img').attr('src')
+		 }
+		 console.log(params)
+		return params;
+	 } 
+	function doCancel() {
+		$("#mainContentId").load("article/userSet_article");
+	}
+	
+	 //初始化界面数据
+	function doSaveObject(){
+		var rowData=$("#mainContentId").data("data");
+		console.log(rowData);
+		 //1.获取表单数据
+		 var params=doGetEditFormData();
+		 console.log(params.title);
+		 //2.发起异步请求
+		 var insertUrl="article/doSaveObject";
+		 var updateUrl="article/doUpdateById";
+		 var url=rowData?updateUrl:insertUrl;
+		 $.post(url,params,function(result){
+			 console.log(result)
+			if(result.state==1){
+				 alert(result.message)
+				//修改成功，跳转
+				 doCancel();
+			}else{
+				alert(result.message);
+			 }
+		 })
+	} 
+	
+	
+
+ 
+</script>

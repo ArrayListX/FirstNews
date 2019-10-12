@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tt.news.dao.NewsCommentDao">
+
+	<!-- 1.分页查询 -->
+	<select id="findPageObjects"
+		resultType="com.tt.news.entity.NewsComment">
+		select * from news_comment
+		<include refid="queryWhereId" />
+		order by createdTime desc
+		limit #{startIndex},#{pageSize}
+	</select>
+
+	<!--2.根据条件查询总记录数 -->
+	<select id="getRowCount" resultType="int">
+		select count(*) from news_comment
+		<include refid="queryWhereId" />
+	</select>
+
+	<sql id="queryWhereId">
+		<where>
+			<if test="createdUser!=null and createdUser!=''">
+				createdUser like concat("%",#{createdUser},"%")
+			</if>
+		</where>
+	</sql>
+
+	<!--3.根据评论id删除评论信息 -->
+	<delete id="deleteObjectById">
+		delete from news_comment where id=#{id}
+	</delete>
+	
+	<!--4.列出所有评论  -->
+	<select id="listObjects" resultType="com.tt.news.entity.NewsComment">
+		select * from news_comment
+	</select>
+</mapper>

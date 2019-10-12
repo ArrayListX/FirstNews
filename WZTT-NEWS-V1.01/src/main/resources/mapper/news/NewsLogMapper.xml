@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.news.dao.NewsLogDao">
+	<!--创建映射元素实现翻页查询操作 -->
+	<!-- resultType的值为一行记录要映射条件的路径 -->
+	<select id="findPageObjects"
+		resultType="com.tt.news.entity.NewsLog">
+		select * from new_logs
+		<include refid="queryWhereId" />
+		order by createdTimedate desc
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	<select id="getRowCount" resultType="int">
+		select count(*) from new_logs
+		<include refid="queryWhereId"></include>
+	</select>
+
+	<!-- 借助此元素对重复数据进行提取,其他元素用到此元素可以用include元素包含 -->
+	<!--concatMysql中连接字符串的函数-->
+	<sql id="queryWhereId">
+		<where>
+			<if test="username!=null and username!=''">
+				username like concat("%",#{username},"%")
+			</if>
+		</where>
+	</sql>
+   
+   <!--执行添加操作  -->
+   <insert id="insertObject">
+   	insert into new_logs
+    (username,operation,method,params,timebig,ip,createdTimedate)
+     values
+    (#{username},#{operation},#{method},#{params},#{timebig},#{ip},now()) 
+   </insert>
+   
+   
+  <!-- 根据ID查询记录  -->
+   <select id="findObjects" resultType="com.tt.news.entity.NewsLog">
+   	select * from new_logs
+   </select>
+   
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

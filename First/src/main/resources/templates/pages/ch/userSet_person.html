@@ -1,0 +1,244 @@
+            <div id="personalDate">
+                <ol class="am-breadcrumb  am-breadcrumb-slash">
+                    <li class="am-active am-icon-home"> 个人主页</li>
+                    <li class="am-active">个人资料</li>
+                </ol>
+                <div class="zhy-personalDate">
+                    <div class="personalDateHeadPortrait">
+                        <div class="headPortrait">
+                            <img id="headPortrait" src="https://zhy-myblog.oss-cn-shenzhen.aliyuncs.com/static/img/loading.gif"/>
+                        </div>
+                        <div class="headChange">
+                  
+                        </div>
+
+                    </div>
+                    <div class="personalDateForm">
+                        <form id="personalDateForm">
+                            <!-- <div class="userNameTable">
+                                <label>名称</label>
+                                <div class="username" id="username"></div>
+                                <i class="phoneCheck am-icon-check">不可更改</i>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                            </div> -->
+                            <div class="userNameTable">
+                                <label>名称</label>
+                                <div class="phone" id="personalPhone"></div>
+                                <i class="phoneCheck am-icon-check" id="username">不可更改</i>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                            </div>
+                            <div class="phoneTable">
+                                <label>邮箱</label>
+                                <div class="phone" id="personalPhone"></div>
+                                <i class="phoneCheck am-icon-check">已验证</i>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                            </div>
+                            <div class="birthdayTable">
+                                <label for="birthday" id="birthday">生日</label>
+                                <input class="formInputbir" type="date" id="birthday" data-am-datepicker="{format: 'yyyy-mm-dd', viewMode: 'years'}" placeholder="填写你的生日"/>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                            </div>
+                            <div class="emailTable">
+                                <label for="mobile" id="mobile">手机号</label>
+                                <input class="formInputmob" type="mobile" id="mobile" placeholder="填写你的手机号">
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                            </div>
+                            <button type="button" id="savePersonalDateBtn" class="savePersonalDateBtn am-btn am-btn-warning">保存</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+ <script type="text/javascript">
+	//页面加载时执行
+	$(function() {
+		doUpdateById();
+		$("#savePersonalDateBtn").on("click", doSaveObjects)
+		/* imgChange(obj,id); */
+		/* $(".am-active").on("click",doUpdateById) */
+	});
+	
+		/* function imgChange(obj,id){
+			file = document.getElementById("headPortrait");
+		    var files = obj.files;
+		    img = new Image();
+		    if(window.URL){
+		        //File API
+		        img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
+		        img.onload = function(e) {
+		        window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
+		        }
+		    }
+		    file.src=img.src;
+		    //上传文件
+		        var fd = new FormData(),//实例化一个表单
+		        xhr = new XMLHttpRequest();
+		        fd.append('headimg', files[0]);//追加图片元素
+		        xhr.open('post', 'user.php?act=act_edit_img');//请求方式，请求地址
+		        xhr.send(fd);
+
+		} */
+		
+		//获取id
+		function doUpdateById(){
+			//取到username的值
+			//根据username取原来的全部值,回显
+			var username = document.cookie.split(";")[2].split("=")[1];
+			var url="user/findByUsername";
+			var params={"username":username}	
+			//alert(params);
+		    $.getJSON(url,params,function(result){
+		    	/* console.log(result); */
+		    	//获取值
+				doGetObjects(result);
+			});
+		}
+		
+		//获取显示值
+		function doGetObjects(result){
+			//alert(result);
+			$(".formInputbir").val(result.data.birthday);
+			$(".formInputmob").val(result.data.mobile);
+		}
+		
+		//保存值
+		function doSaveObjects(){
+			var url="user/doUserById";
+			//console.log(url);
+			var params=doGetEditFormData();
+			//console.log(params);
+			$.getJSON(url,params,function(result){
+				console.log(result)
+			if(result.state==1){
+				//修改成功，跳转
+				window.location.href="doUserUI";
+			  }else{
+				alert(result.message);
+			 }
+			});
+		}
+		//修改用户输入的值
+	   function doGetEditFormData(){
+		 var params={
+			username:document.cookie.split(";")[2].split("=")[1],
+		    birthday:new Date($(".formInputbir").val()),
+		    mobile:$(".formInputmob").val()
+		 }
+		console.log(params)
+		return params;
+	 } 
+		function doCancel(){
+			$("#mainContentId").load("doUserUI");
+		}
+		
+		/* //将生日格式转化出来
+		function formatDate(NewDtime) {
+		    var dt = new Date(parseInt(NewDtime.slice(6, 19)));
+		    var year = dt.getFullYear();
+		    var month = dt.getMonth() + 1;
+		    var date = dt.getDate();
+		    return year + "-" + month + "-" + date;
+		} */
+	
+	/*  //页面加载完成异步加载当前页数据
+	   function doGetObjects(){
+		   var url="user/doFindPageObjects";
+		   var pageCurrent=$("#pageId").data("pageCurrent");
+		   if(!pageCurrent)pageCurrent=1;
+		   var params={"pageCurrent":pageCurrent}
+		   params.username=$("#searchNameId").val().trim();
+		   console.log(params);
+		   $.getJSON(url,params,function(result){
+			   console.log(result);
+			   doHandleResponseResult(result);
+		   });
+	   }
+	 
+	   
+	  function doLoadEditUI(){
+		   //1.判定点击的对象
+		   var title;
+		   if($(this).hasClass("btn-add")){
+			   title="添加用户";
+			   doLoadPage(title);
+		   }else if($(this).hasClass("btn-update")){
+			   title="修改用户";
+			   var id=doGetCheckedId();
+			   console.log("id="+id)
+		   }
+			   if(!id){
+				  alert("请先选择");
+				  return;
+			   }
+			   //基于id进行查询并加载编辑页面
+			   doFindObjectById(id,title);
+		   
+	   }
+	   function doFindObjectById(id,title){
+		   //1.params
+		   var params={"id":id};
+		   //2.url
+		   var url="user/doFindObjectById";
+		   //3.ajax request
+		   $.getJSON(url,params,function(result){//JsonResult
+			   if(result.state==1){
+				  $("#mainContentId").data("rowData",result.data); 
+		          doLoadPage(title);
+			   }else{
+				  alert(result.message);
+			   }
+		   });
+	   }
+	   
+	   function doGetCheckedId(){
+		 return $("tbody input[name='radioId']:checked").val();
+	   }
+	   function doLoadPage(title){
+		   var url="user/user_edit"
+		   $("#mainContentId").load(url,function(){
+			   $(".box-title").html(title);
+		   }) 
+	   }
+	   //处理查询按钮事件
+	   function doQueryObjects(){
+		   $("#pageId").data("pageCurrent",1);
+		   doGetObjects();
+	   }
+	  
+	   function doHandleResponseResult(result){
+		   if(result.state==1){
+			  doSetTableBodyRows(result.data.records);
+			  doSetPagination(result.data);
+			}else{
+			  alert(result.message);
+		   }
+	   }
+	   //通过服务端返回的数据初始化页面
+	   function doSetTableBodyRows(data){
+		  //1.获取tbody对象，并清空内容
+		  var tBody=$("#tbodyId");
+		  tBody.empty();
+		  //2.迭代data内容将数据追加到tbody中
+		  for(var i in data){
+			  var tr=$("<tr></tr>");
+			  tr.data("rowData",data[i]);
+			  var tds=doCreateTds(data[i]);
+			  tr.append(tds);
+			  tBody.append(tr);
+		  }
+	   }
+	    function doCreateTds(row){
+		   console.log(row);
+		   var tds="<td><input type='radio' name='radioId' value='"+row.id+"' ></td>"+
+		     "<td>"+row.username+"</td>"+
+		     "<td>"+(row.sysDept?row.sysDept.name:'未分配')+"</td>"+
+		     "<td>"+row.email+"</td>"+
+		     "<td>"+row.mobile+"</td>"+
+		     "<td>"+(row.valid?"启用":"禁用")+"</td>"+
+		     "<td>"+new Date(row.createdTime).toLocaleString()+"</td>"+
+		     "<td>"+new Date(row.modifiedTime).toLocaleString()+"</td>"+
+		     "<td><button type='button' class='btn btn-default btn-valid'>"+(row.valid?"禁用":"启用")+"</button></td>"; 
+	       return tds;
+	   }  */
+</script>
+
+         

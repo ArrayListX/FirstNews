@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.news.dao.NewsArticleDao">
+
+	<!-- 基于多个id执行日志删除操作 -->
+	<delete id="deleteObjects">
+		delete from news_article
+		where id in
+		<foreach collection="ids" open="(" close=")" separator=","
+			item="id">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="findPageObjects"
+		resultType="com.tt.news.entity.NewsArticle">
+		select * from news_article
+		<include refid="queryWhereTitle" />
+		limit #{startIndex},#{pageSize}
+	</select>
+
+	<select id="getRowCount" resultType="int">
+		select count(*) from news_article
+		<include refid="queryWhereTitle" />
+	</select>
+
+	<sql id="queryWhereTitle">
+		<where>
+			<if test="title!=null and title!=''">
+				title like concat("%",#{title},"%")
+			</if>
+		</where>
+	</sql>
+	
+	<update id="validById">
+		update news_article
+		set valid=#{valid},
+		modifiedTime=now()
+		where id=#{id}
+	</update>
+
+</mapper>

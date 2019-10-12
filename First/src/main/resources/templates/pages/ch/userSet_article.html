@@ -1,0 +1,337 @@
+
+<div id="personalDate">
+	<ol class="am-breadcrumb  am-breadcrumb-slash">
+		<li class="am-active am-icon-home">个人主页</li>
+		<li class="am-active">文章管理</li>
+	</ol>
+	<div class="row">
+		<div class="col-xs-12">
+		<div class="box">
+				<div class="box-tools">
+					<div class="input-group input-group-sm" style="width: 350px;">
+						<input type="text" name="table_search" id="searchNameId"
+							class="form-control pull-right" placeholder="文章名">
+
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default btn-search">
+								<i class="fa fa-search"></i>
+							</button>
+							<button type="button" class="btn btn-default btn-delete">删除</button>
+						</div>
+					</div>
+
+				<!-- /.box-header -->
+				<div class="box-body table-responsive no-padding">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>文章标题</th>
+								<th>文章内容</th>
+								<th>文章类别</th>
+								<th>评论量</th>
+								<th>阅读量</th>
+								<th>创建文章时间</th>
+								<th>修改文章时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="tbodyId">
+							<tr>
+								<td colspan="7">数据加载中...</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div id="pageId" class="box-footer clearfix"></div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		//为什么要将doGetObjects函数写到load函数对应的回调内部。
+		//异步加载分页页面
+		//页面加载完成执行doGetObjects函数
+		$("#pageId").load("doPageUI", doGetObjects)
+
+		$(".input-group-btn").on("click", ".btn-search", doQueryObjects)//查询
+		$(".box-tools").on("input", "#searchNameId", doQueryObjects).on(
+				"click", ".btn-delete", doDeleteObjects)//删除
+
+		//thead中全选按钮事件注册
+		$("#checkAll").click(doChangeTBodyCheckBoxState);
+		//tbody中checkbox对象事件注册
+		$("#tbodyId").on("click", ".cBox", doChangeTHeadCheckBoxState);
+		$("#tbodyId").on("click", ".btn-valid", doValidById);
+		//显示文章内容
+		$("#tbodyId").on("click", ".btn-show", doLoadShowUI);
+		//修改界面
+		$("#tbodyId").on("click", ".btn-update",doLoadUpdateUI);
+	});
+	//显示文章内容
+	function doLoadShowUI() {
+		var id = $(this).parents("tr").data("rowData").id;//获取选中id
+		var params = {
+			"id" : id
+		};
+		var url = "article/doFindObjectById";
+		$.getJSON(url, params, function(result) {
+			if (result.state == 1) {
+				//alert(result);
+				result.data.id = id;//在结果中动态追加id
+				$("#mainContentId").data("data", result.data.id);
+				doShowObject();//异步加载页面
+			} else {
+				alert(result.message);
+			}
+		});
+	}
+	
+	function doShowObject() {
+		//2.异步加载编辑页面
+		var url = "article/userSet_article_view";
+		$("#mainContentId").load(url, function() {
+			$(".box-title").html();
+		});
+	}
+	
+	//修改页面
+	function doLoadUpdateUI() {
+		var id = $(this).parents("tr").data("rowData").id;//获取选中id
+		var params = {
+			"id":id
+		};				
+		alert(id);
+		 $("#mainContentId").data("data", id);		//绑定数据 
+	 
+		 var url="article/userSet_article_Write"
+			   $("#mainContentId").load(url,function(){
+			   }) 
+	}
+	
+	
+
+	//禁用和启用操作
+	function doValidById() {
+		//params
+		var rowData = $(this).parents("tr").data("rowData");
+		var id = rowData.id;
+		var newValid = rowData.valid ? 0 : 1;
+		var params = {
+			"id" : rowData.id,
+			"valid" : newValid
+		};
+		//url
+		var url = "article/doValidById";
+		//ajax request
+		var btn = $(this);//获取点击的button对象
+		$.post(url, params, function(result) {
+			if (result.state == 1) {
+				alert(result.message);
+				//doGetObjects();//重新查询刷新
+				//优化方式实现(局部刷新:修改button显示,修改td内容显示)
+				doEditRow(btn, rowData.valid);
+			} else {
+				alert(result.message);
+			}
+		})
+	}
+
+	function doEditRow(obj, valid) {
+		//1.修改按钮上的内容
+		$(obj).html(valid ? "启用" : "禁用");
+		//2.修改tr中第9个td中的内容(查询API文档)
+		var tr = $(obj).parents("tr");
+		tr.find("td:eq(9)").text(valid ? "禁用" : "启用");
+		//3.获取当前行tr对象，然后重新绑定新的值
+		var rowData = tr.data("rowData")
+		rowData.valid = valid ? 0 : 1;
+		tr.data("rowData", rowData);
+	}
+
+	//修改thead中checkbox状态
+	function doChangeTHeadCheckBoxState() {
+		//1.获取所有tbody中checkbox对象状态相与的结果
+		var flag = true;
+		$("#tbodyId input[type='checkbox']").each(function() {
+			flag = flag && $(this).prop("checked");
+		});
+		//2.设置thead中checkbox状态值为flag
+		$("#checkAll").prop("checked", flag);
+	}
+	//修改tbody中checkbox的状态值
+	function doChangeTBodyCheckBoxState() {
+		//1.获取thead中全选按钮状态值
+		var flag = $(this).prop("checked");
+		//2.修改tbody中checkbox的状态值
+		$("#tbodyId input[type='checkbox']").each(function() {
+			$(this).prop("checked", flag);
+		});
+	}
+
+	function doGetCheckedIds() {
+		//1.定义一个数组
+		var array = [];
+		//1.获取tbody中类型为checkbox的input元素
+		$("#tbodyId input[type='checkbox']")
+		//2.迭代这些checkbox元素
+		.each(function() {
+			//3.判定此元素是否被选中
+			//prop函数是用于获取元素中某个属性的值
+			if ($(this).prop("checked")) {
+				//4.将选中的值存储到数组
+				array.push($(this).val());
+			}
+		});
+		//5.返回数组
+		return array;
+	}
+
+	//定义查询按钮的事件处理函数
+	function doQueryObjects() {
+		console.log("doQueryObjects()");
+		//数据查询时页码的初始位置也应该是第一页
+		$("#pageId").data("pageCurrent", 1);
+		//调用doGetObjects函数作用：
+		//重用js代码，简化js代码编写
+		doGetObjects();
+	}
+	//删除事件的处理函数
+	function doDeleteObjects() {
+		//1.获取选中的记录id
+		var idArray = doGetCheckedIds();
+		if (idArray.length == 0) {
+			alert("请先选择");
+			return;
+		}
+		console.log("idArray", idArray)
+		//2.确认是否删除
+		if (!confirm("确认删除吗"))
+			return;
+		//3.异步执行删除操作
+		//3.1 params
+		var params = {
+			"ids" : idArray.toString()
+		}
+		//3.2 url
+		var url = "article/doDeleteObjects";
+		//3.3 request (发送post请求)
+		$.post(url, params, function(result) {
+			if (result.state == 1) {
+				alert(result.message);
+				//刷新策略(重新查询,清空tbody内容)
+				//doRefresh();
+				//   doSetPageCurrent();
+				doGetObjects();//刷新
+			} else {
+				alert(result.message);
+			}
+		})
+	}
+	//当在最后一页删除成功后,跳转回上一页
+	function doRefresh() {
+		var pageCount = $("#pageId").data("pageCount");
+		var pageCurrent = $("#pageId").data("pageCurrent");
+		var checked = $("#checkAll").prop("checked");
+		if (pageCurrent == pageCount && pageCurrent == 1 && flag) {
+			$("#checkAll").prop("checked", false);
+			$("#tbodyId").empty();
+			doInitPagination();
+			return;
+		}
+		if (pageCurrent == pageCount && checked && pageCount > 1) {
+			pageCurrent--;
+			$("#pageId").data("pageCurrent", pageCurrent);
+		}
+		doGetObjects();
+	}
+
+	//通过此函数执行异步加载操作
+	function doGetObjects() {
+		//1.定义url和参数
+		var url = "article/doFindPageObjects";
+		var pageCurrent = $("#pageId").data("pageCurrent");
+		if (!pageCurrent)
+			pageCurrent = 1;
+		var params = {
+			"pageCurrent" : pageCurrent
+		};
+		var title = $("#searchNameId").val();
+		if (title)
+			params.title = title;
+		$.getJSON(url, params, function(result) {
+			doHandleResponseResult(result);
+		});
+	}
+
+	
+	/* 分页信息 */
+	//处理服务端的响应结果
+	function doHandleResponseResult(result) {
+		if (result.state == 1) {
+			//更新table中tbody内部的数据
+			doSetTableBodyRows(result.data.records);//将数据呈现在页面上
+			//更新页面page.html分页数据
+			doSetPagination(result.data); //此方法写到page.html中
+		} else {
+			alert(result.message);
+		}
+	}
+	//将异步响应结果呈现在table的tbody位置
+	function doSetTableBodyRows(data) {
+		//1.获取tbody对象，并清空内容
+		var tBody = $("#tbodyId");
+		tBody.empty();
+		//2.迭代data内容将数据追加到tbody中
+		for ( var i in data) {
+			var tr = $("<tr></tr>");
+			tr.data("rowData", data[i]);
+			var tds = doCreateTds(data[i]);
+			tr.append(tds);
+			tBody.append(tr);
+		}
+	}
+
+	function doSetPageCurrent() {
+		var pageCount = $("#pageId").data("pageCount");
+		var pageCurrent = $("#pageId").data("pageCurrent");
+		if (pageCurrent == pageCount && checked && pageCurrent > 1) {
+			pageCurrent--;
+			$("#pageId").data("pageCurrent", pageCurrent);
+		}
+	}
+	//创建当前行的td元素
+	function doCreateTds(data) {
+		var tds = "<td><input type='checkbox' class='cBox' name='cItem' value='"+data.id+"'></td>"
+				+ "<td title='${entity.newsTitle}' style='max-width: 100px;overflow: hidden; text-overflow:ellipsis;white-space: nowrap'>"
+				+ data.title
+				+ "</td>"
+				+ "<td title='${entity.newsTitle}' style='max-width: 100px;overflow: hidden; text-overflow:ellipsis;white-space: nowrap'>"
+				+ data.content
+				+ "</td>"
+				+ "<td>"
+				+ data.typeId
+				+ "</td>"
+				+ "<td>"
+				+ data.commentsCount
+				+ "</td>"
+				+ "<td>"
+				+ data.readCount
+				+ "</td>"
+				+ "<td>"
+				+ new Date(data.createdTime).toLocaleString()
+				+ "</td>"
+				+ "<td>"
+				+ new Date(data.modifiedTime).toLocaleString()
+				+ "</td>"
+				+ "<td><button type='button' class='btn btn-default btn-show'>"
+				+ '显示' + "</button></td>"
+				+ "<td><button type='button' class='btn btn-default btn-update'>"
+				+ '修改' + "</button></td>";
+		return tds;
+	}
+</script>

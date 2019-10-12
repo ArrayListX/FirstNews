@@ -1,0 +1,496 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title >今日头条</title>
+<link rel="stylesheet"
+	href="../dist/css/index.95758b5eb3381a7d7f4b53c2bca83199.css">
+
+<style type="text/css">
+@
+keyframes resizeanim {from { opacity:0;
+	
+}
+
+to {
+	opacity: 0;
+}
+
+}
+.resize-triggers {
+	animation: 1ms resizeanim;
+	visibility: hidden;
+	opacity: 0;
+}
+
+.resize-triggers, .resize-triggers &gt ; div, .contract-trigger:before {
+	content: " ";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+.resize-triggers &gt ; div {
+	background: #eee;
+	overflow: auto;
+}
+
+.contract-trigger:before {
+	width: 200%;
+	height: 200%;
+}
+</style>
+<style id="debac05">
+.imga_wrapper {
+	position: relative;
+	display: inline-block;
+}
+
+.imga_flag {
+	display: inline-block;
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+	border: 1px solid #fff;
+	color: #fff;
+	font-size: 12px;
+	line-height: 12px;
+	height: 12px;
+	padding: 1px 2px;
+	text-align: center;
+}
+</style>
+<style id="455683c">
+.right-top-1 {
+	margin-bottom: 30px
+}
+</style>
+<style id="f5c1007">
+.right-top-2 {
+	margin-bottom: 30px
+}
+</style>
+<style id="cb7d4f9">
+.right-top-3 {
+	margin-bottom: 30px
+}
+</style>
+<style id="4e22eac">
+.pane-module .picture-list .picture-item-a {
+	margin-right: 12px;
+	margin-bottom: 16px;
+}
+
+.jx-hi-container {
+	display: block !important;
+}
+
+.jx-hi-container .imag-wrap {
+	width: 144px;
+	height: 84px;
+	position: relative;
+}
+
+.jx-hi-container .imag-wrap img {
+	width: 100%;
+	height: 100%
+}
+
+.jx-hi-container .imag-wrap .tag {
+	position: absolute;
+	right: 8px;
+	bottom: 8px;
+	padding: 0 6px;
+	border-radius: 10px;
+	background: #000;
+	background: rgba(0, 0, 0, .7);
+	color: #fff;
+	line-height: 20px;
+}
+
+.jx-hi-container .ainfo {
+	overflow: hidden;
+}
+
+.jx-hi-container .atitle {
+	margin-top: 12px;
+	height: 34px;
+	font-size: 14px;
+	color: #222;
+	line-height: 18px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+</style>
+<style id="596daed">
+.right-top-4 {
+	margin-bottom: 30px
+}
+</style>
+<style id="4163e21">
+.right-hover-1 {
+	position: fixed;
+	top: 20px;
+}
+
+#imagindexhover ins {
+	position: absolute !important
+}
+</style>
+<style id="99aed1f">
+.bd-bottom-1 {
+	padding-left: 10px
+}
+</style>
+</head>
+<body>
+	<div>
+		<div class="toutiao-header">
+			<div class="topbar">
+				<!---->
+				<div class="bui-left clearfix"></div>
+				<div class="bui-right">
+					<ul class="user-nav-list clearfix">
+						<!---->
+						<!---->
+						<!---->
+						<li class="nav-login"><a ga_event="nav_login" class="tb-link">登录</a></li>
+						<!---->
+						<li><a href="//www.toutiao.com/complain/"
+							ga_event="mh_nav_complain" target="blank" class="tb-link">侵权投诉</a></li>
+						<li>
+							
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="middlebar">
+				<div class="middlebar-inner clearfix" style="width: 1170px;">
+					<div class="bui-left logo-box">
+						<a href="/" ga_event="go_home" class="logo-link"><img
+							src="../dist/images/logo.201f80d.png" class="logo"></a>
+					</div>
+					<div class="bui-left chinese-tag">
+						<a href="../doIndexUI" target="_blank" ga_event="click_index">首页</a> / 
+							<a href="/ch/news_world/" class = "article-typeName" target="_blank" ga_event="click_channel">国际</a>
+						/ <span class="text">正文</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bui-box container">
+			<div class="bui-left index-left">
+				<div class="share-box">
+					<a href="#comment_area" ga_event="click_comment_anchor"
+						class="share-count"><i class="bui-icon icon-comments_anchor "
+						style="font-size: 30px; color: rgb(248, 89, 89);"></i> <span class = "article-commentCount">30</span></a>
+					<div class="share-hr"></div>
+					<div ga_event="click_share_weibo" class="share-type">
+						<i class="bui-icon icon-sina"
+							style="font-size: 34px; color: rgb(255, 102, 49);"></i> <span>微博</span>
+					</div>
+					<div ga_event="click_share_qzone" class="share-type">
+						<i class="bui-icon icon-qzone"
+							style="font-size: 34px; color: rgb(255, 189, 29);"></i> <span>Qzone</span>
+					</div>
+					<div ga_event="click_share_weixin" class="share-type share-weixin">
+						<i class="bui-icon icon-wechat"
+							style="font-size: 34px; color: rgb(82, 205, 62);"></i> <span>微信</span>
+						<div class="share-qrcode">
+							<div id="J_qrcode"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bui-left index-middle">
+				<div class="article-box">
+					<h1 class="article-title"></h1>
+					<div class="article-sub">
+						<span class="article-user"></span>
+						<span class="article-createdTime"></span>
+					</div>
+					<div class="article-content">
+					</div>
+					
+					</div>
+					<div class="detail-comment">
+					<a id="comment_area" href="#"></a>
+					<div id="comment">
+						<!--================--======================================  -->
+						<div class="c-header">
+							<em class="c-number">30&nbsp;</em>条评论
+						</div>
+						<!--================--======================================  -->
+						<div data-v-7f58aa2c="" class="inputBox">
+							<div data-v-7f58aa2c="" class="bui-box">
+								<div data-v-7f58aa2c="" class="avatar-wrap avatar-wrap-center">
+									<!---->
+								</div>
+								<div data-v-7f58aa2c="" class="input-wrap">
+									<div data-v-7f58aa2c="" ga_event="click_input_comment"
+										class="c-textarea">
+										<textarea data-v-7f58aa2c="" placeholder="写下您的评论..." class="comment_area"></textarea>
+									</div>
+									<div data-v-7f58aa2c="" ga_event="click_publish_comment"
+										class="c-action">
+										<div data-v-7f58aa2c="" class="c-submit" id="comment">评论</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="body">
+							<ul class="d_comments">
+								<!-- ========================================================================================================================================== -->
+								<!-- ========================================================================================================================================== -->		
+							</ul>
+						</div>
+						<!-- =================================================================================================================== -->
+						<a ga_event="click_loadmore_comment" class="c-load-more">查看更多评论</a>
+						<!---->
+						<!---->
+					</div>
+				</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+		<ul data-v-5c014667="" class="toolbar">
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+		</ul>
+	</div>
+</body>
+</html>
+	<!-- jQuery 3 -->
+	<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="../dist/js/raven.js" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+	$(function(){
+		//初始化信息
+		doInitEditFormData();
+	 $(".box-footer").on("click",".btn-cancel",doCancel)
+	
+			//点击加载更多评论
+			$(".c-load-more").on("click", doLoadMoreComments)
+			//评论按钮点击事件注册
+			$(".input-wrap").on("click",".c-submit",test)
+	});
+	//初始化界面数据
+	function doInitEditFormData() {
+		var id=document.cookie.split(";")[0].split("=")[1];
+		var url="doShowId";//通过id查找
+		var params={"id":id};
+		//console.log(params);
+		$.getJSON(url,params,function(result){
+			//console.log("result",result);
+			doShowData(result);//传 一个记录的集合
+			doListComments(result.data.title);
+		   });
+	}
+	
+		function doShowData(result){
+			$(".article-title").html(result.data.title);
+			$(".article-user").html(result.data.createdUserName);
+			$(".article-content").html(result.data.content);	
+			$(".article-typeName").html(result.data.articleTypeName);
+			$(".article-commentCount").html(result.data.commentsCount);
+			$(".article-createdTime").html(new Date(result.data.createdTime).toLocaleString());
+		}
+	/* function doShowData(result){
+		var tds = "<tr class='doShow'>"+"<td colspan='2'>"+"<h3>"
+				+ data.title
+				+ "<h3/>" + "</td>"+"</tr>"
+				+ "<td>"+"评论 "
+				+ data.commentsCount
+				+ "</td>"
+				+ "<td>"+"阅读"+
+				+ data.readCount
+				+ "</td>"+"<tr>" + ""+"</tr>";
+		return tds;
+	} */
+	/*=======================================================================  */
+	//显示评论信息
+		function doListComments(title) {
+			var url = "mycomment/doListComments";
+			//获取页面文章的标题
+			/* var title = $(".article-title").html().trim();//获取文章标题================= */
+			var title = title;
+			var params = {
+				"title" : title
+			};
+			console.log(params);
+			$.getJSON(url, params, function(result) {
+				console.log(result);
+				doHandleResponseResult(result);
+			});
+		}
+
+		//处理服务端的响应结果
+		function doHandleResponseResult(result) {
+			if (result.state == 1) {//正确
+				//将日志记录呈现列表页面
+				console.log(result.data)
+				doSetTableBodyRows(result.data);
+			} else {
+				alert(result.message);
+			}
+		}
+
+		//将评论记录呈现列表页面
+		function doSetTableBodyRows(records) {
+			//获取body对象，并清空原有信息
+			var body = $(".body")
+			body.empty();//清空内容
+			//创建ul对象
+			var ul = $("<ul></ul>");
+			console.log(records)
+			//迭代records，追加记录到body中
+			for (var i = 0; i < records.length; i++) {
+				//1.创建li对象
+				var lis = doCreatLis(records[i]);
+				//3.将li追加到ul中
+				ul.append(lis);
+				//4.将ul加到body中
+				body.append(ul);
+			}
+	//设置访问显示三条评论======================================
+			//统计当前li的个数
+			var count = $(".c-item").length
+			//统计评论数量
+			//获取显示评论数量对象
+			var number = $(".c-header");
+			number.empty();
+			console.log(count);
+			var em = $("<em class='c-number'>" + count + " 条评论</em>")
+			number.append(em)
+			//获取页面最上面评论数量
+			var h_number = $("#span");
+			h_number.empty();
+			var h_em = $("<em>" + count + "</em>")
+			h_number.append(h_em)
+			//如果超出3条
+			if (count >= 3) {
+				//让第3条以后的评论隐藏
+				$(".c-item").filter(function(index) {
+					return index >= 3 && index < count
+				}).hide();
+			}
+
+	//删除按钮事件注册==================================================
+			$(".c-footer-action").on("click","#c_delete",doDeleteComment)
+			
+	//设置点亮小红心====================================================
+			$(".like").on("click", function() {
+				if ($(this).style = "#ccc") {
+					$(this).css("color", "#f00");
+				}
+				$(this).on("click", function() {
+					$(this).css("color", "#ccc");
+				});
+			});		
+		}
+
+		//创建li显示评论
+		function doCreatLis(row) {
+			var lis = "<li class='c-item' id='"+row.id+"'><a href='/c/user/50019003284/' target='_blank' class='avatar-wrap'><img src='http://localhost:1011/1569143615238_201907101646003266600737510.gif'></a> <div class='c-content'>"
+					+ "<div class='c-user-info'> <a href='/c/user/50019003284/' target='_blank' class='c-user-name'>"
+					+ row.createdUser
+					+ "</a>"
+					+ "<span class='c-create-time'>"
+					+ new Date(row.createdTime).toLocaleString()
+					+ "</span></div>"
+					+ "<p>"
+					+ row.content
+					+ "</p><div class='c-footer-action'><span ga_event='click_reply_comment' class='c-reply'>回复</span>"
+					+ "<span title='删除' class='bui-right c-report'><i class='bui-icon icon-delete' id='c_delete'></i></span>"
+					+ "<span title='点赞' class='bui-right c-digg'><p class='like' style='color:#ccc;'>&#10084;</p></span>"
+					+ "</div><div class='J_input_1'></div> </div></li>";
+			return lis;
+		}
+
+		//加载更多评论
+		function doLoadMoreComments() {
+			for (var i = 1; i < 6; i++) {
+				//统计当前li的个数
+				var count1 = $(".c-item").length
+				//统计隐藏li的个数
+				var count2 = $(".c-item:hidden").length
+				//计算开始显示的下标
+				var index = count1 - count2;
+				$(".c-item:eq(" + (index - 1) + ")").next().show();
+			}
+
+		}
+		
+		//评论按钮的点击事件
+		function test() {
+	
+			var comment = $(".comment_area").val();//获取评论内容
+			if(comment==null||comment==""){
+				alert("评论不能为空!");
+				return;
+			}
+			var title = $("h1").html().trim();//获取文章标题
+			//清空文本框
+			$('.comment_area').val("");
+			doSaveObject(comment,title);	
+		}  
+	  	 //添加评论
+	  	 function doSaveObject(comment,title){
+	  		 //获取cookie传过来的userId
+	  		var createdUser=document.cookie.split(";")[3].split("=")[1];
+	  		 //1.param	获取数据
+	  		 var param = {"content":comment,"articleTitle":title,"createdUser":createdUser};  
+	  		 //2.url
+	  		 var url = "mycomment/doSaveObject";	//调用controller方法增加
+	  		 $.post(url,param,function(){
+	 		//添加成功,调用controller方法刷新，页面
+	  			doListComments(title);
+	  		 }) 
+	  	 }
+	
+		//评论删除
+		function doDeleteComment(){	
+			 //获取cookie传过来的userId
+	  		var createdUser=document.cookie.split(";")[3].split("=")[1];
+			//确认是否删除
+			if (!confirm("确定删除选定评论吗?"))
+				return;
+			//执行删除操作
+			  //1.定义请求参数
+			  var c_id = $(this).parents("li").attr("id")
+			  var title = $("h1").html().trim();//获取文章标题
+			  var param={"id":c_id,"title":title,"createdUser":createdUser};
+			  //2.定义请求url
+			  var url="mycomment/doDeleteObjectById";
+			  //3.发送异步请求执行删除操作
+				$.post(url, param, function(result) {
+					if (result.state == 1) {
+						alert(result.message);
+						//查询重用
+						doListComments(title);
+					} else {
+						alert(result.message);
+					}
+				}) 
+		}
+
+	function doCancel() {
+		$("#mainContentId").load("article/article");
+	}
+	</script>
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mynews.dao.MyNewsArticleDao">
+	<select id="findObjectsById"
+	resultType="com.mynews.entity.MyNewsArticle">
+	select news_article.*,news_user.username createdUserName,news_type.typeName articleTypeName from news_article,news_user,news_type
+	where news_article.id = #{id} and news_user.id = news_article.createdUserId and news_type.id = news_article.typeId
+	</select>
+
+	<select id="findObject"
+	resultType="com.mynews.entity.MyNewsArticle">
+	select news_article.*,news_user.username createdUserName,news_type.typeName articleTypeName from news_article,news_user,news_type
+	where news_user.id = news_article.createdUserId and news_type.id = news_article.typeId and news_article.valid = 1
+	order by readCount desc
+	</select>
+	<update id="addReadCount"
+	parameterType="int">
+	UPDATE news_article SET readCount = readCount + 1
+WHERE id=#{id}
+	</update>
+</mapper>

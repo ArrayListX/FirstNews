@@ -1,0 +1,72 @@
+<!-- Horizontal Form -->
+	<ol class="am-breadcrumb  am-breadcrumb-slash">
+		<li class="am-active am-icon-home">个人主页</li>
+		<li class="am-active">查看评论</li>
+	</ol>
+<div class="box box-info">
+	<!-- /.box-header -->
+	<!-- form start -->
+	<form class="form-horizontal">
+		<div class="box-body">
+			<div class="form-group">
+				<label for="comId" class="col-sm-2 control-label">文章ID：</label>
+				<div class="col-sm-10">
+				 <input type="text" class="form-control" name="id" id="artId" readonly="readonly">
+				 </div>
+			</div>
+			<div class="form-group">
+				<label for="comId" class="col-sm-2 control-label">文章标题：</label>
+				<div class="col-sm-10">
+				 <input type="text" class="form-control" name="id" id="artTit" readonly="readonly">
+				 </div>
+			</div>
+			<div class="form-group">
+				<label for="comUser" class="col-sm-2 control-label">文章作者id：</label>
+				<div class="col-sm-10">
+				 <input type="text" class="form-control" name="id" id="artUser" placeholder="(空)" readonly="readonly">
+				 </div>
+			</div>
+			<div class="form-group">
+				<label for="comTime" class="col-sm-2 control-label">文章内容：</label>
+				<div class="col-sm-10">
+				 <textarea type="text" class="form-control" name="id" id="artCon" placeholder="(空)" readonly="readonly" style="width:100%; height:500px;"/>
+				 </div>
+			</div>
+		</div>
+		<!-- /.box-body -->
+		<div class="box-footer">
+			<button type="button" class="btn btn-default btn-cancel">返回</button>
+		</div>
+		<!-- /.box-footer -->
+	</form>
+</div>
+<script type="text/javascript">
+	$(function(){
+		//初始化信息
+		doInitEditFormData();
+	 $(".box-footer").on("click",".btn-cancel",doCancel)
+	 
+	});
+	//初始化界面数据
+	function doInitEditFormData() {
+		var data=$("#mainContentId").data("data");	//要显示详细信息的id
+		var url="article/doFindObjectById";//通过id查找
+		var params={"id":data};
+		
+		$.getJSON(url,params,function(result){
+			console.log("result.data",result.data);
+			doShowData(result.data);//传 一个记录的集合
+		   });
+	}
+	
+	function doShowData(result){
+		$("#artId").val(result.id);
+		$("#artTit").val(result.title);
+		$("#artUser").val(result.createdUserId);
+		$("#artCon").val(result.content);
+	
+	}
+	function doCancel() {
+		$("#mainContentId").load("article/userSet_article");
+	}
+</script>

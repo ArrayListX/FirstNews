@@ -1,0 +1,210 @@
+
+<div id="personalDate">
+	<ol class="am-breadcrumb  am-breadcrumb-slash">
+		<li class="am-active am-icon-home">个人主页</li>
+		<li class="am-active">评论管理</li>
+	</ol>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+				<div class="box-tools">
+					<div class="input-group input-group-sm" style="width: 350px;">
+						<input type="text" name="table_search" id="searchNameId"
+							class="form-control pull-right" placeholder="输入评论用户以查询">
+
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default btn-search">
+								<i class="fa fa-search"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.box-header -->
+				<div class="zhy-personalDate">
+		<div class="personalDateForm">
+			<div class="box-body table-responsive no-padding">
+				<!--fixed:table的内部布局固定大小  -->
+				<table class="table table-hover" style="table-layout: fixed">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>评论用户</th>
+							<th>评论时间</th>
+							<th>评论对应的文章</th>
+							<th>评论内容</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody id="tbodyId"></tbody>
+				</table>
+			</div>
+			</div>
+			</div>
+			<div id="pageId" class="box-footer clearfix"></div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+</div>
+
+<style type="text/css">
+.rowContent {
+	width: 50px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+</style>
+<script type="text/javascript">
+	//页面加载时执行
+	$(function() {
+		$("#pageId").load("doPageUI", doGetObjects);//doPageUI返回分页信息
+		//查询按钮事件注册
+		$(".input-group-btn").on("click", ".btn-search", doQueryObjects)//查询
+		$(".box-tools").on("input", "#searchNameId", doQueryObjects)
+		$("#tbodyId").on("click", ".btn-view", doLoadEditUI)//查看信息
+		.on("click", ".btn-delete", doDeleteObjects);//删除信息
+	});
+	//处理查询按钮的点击事件
+	function doQueryObjects() {
+		//1.初始化页码值
+		$("#pageId").data("pageCurrent", 1);
+		//2.重新执行基于条件执行查询
+		doGetObjects();//重用 
+	}
+	//加载页面评论的信息
+	function doGetObjects() {
+		   var url="comment/doFindPageObjects";
+		   var pageCurrent=$("#pageId").data("pageCurrent");
+		   if(!pageCurrent)pageCurrent=1;
+		   var params={"pageCurrent":pageCurrent}
+		   params.username=$("#searchNameId").val().trim();
+		   console.log(params);
+		   $.getJSON(url,params,function(result){
+			   console.log(result);
+			   doHandleResponseResult(result);
+		   });
+	}
+
+	//处理服务端的响应结果
+	function doHandleResponseResult(result) {
+		if (result.state == 1) {//正确
+			//将日志记录呈现列表页面
+		  doSetTableBodyRows(result.data.records);
+			//将分页信息呈现分页页面,跳转到page.html
+			  doSetPagination(result.data);
+		} else {
+			alert(result.message);
+		}
+	}
+
+	//将日志记录呈现列表页面
+	function doSetTableBodyRows(records) {
+		//获取tbody对象，并清空原有信息
+		var tBody = $("#tbodyId")
+		tBody.empty();//清空内容
+		//迭代records，追加记录到tBody中
+		for (var i = 0; i < records.length; i++) {
+			//1.创建tr对象
+			var tr = $("<tr></tr>");
+			tr.data("id", records[i].id);
+			//2.创建tr中的td对象
+			var tds = doCreatTds(records[i], i);
+			//3.将td追加到tr中
+			tr.append(tds);
+			//4.将tr加到tBody中
+			tBody.append(tr);
+		}
+	}
+
+	//创建每一列的tds
+	function doCreatTds(row, i) {
+		var tds = "<td>" + (parseInt(i) + 1) + "</td>" + "<td>"
+				+ row.createdUser + "</td>" + "<td>"
+				+ new Date(row.createdTime).toLocaleString() + "</td>" + "<td>"
+				+ row.articleId + "</td>" + "<td class='rowContent'>"
+				+ row.content + "</td>"
+				+ "<td><a class='btn-view'>查看</a>"
+				+ "&nbsp;<a class='btn-delete'>删除</a></td>";
+		return tds;
+	}
+
+
+
+	//执行删除操作
+	function doDeleteObjects() {
+		//2.给出提示,是否确认
+		if (!confirm("确定删除选定评论吗?"))
+			return;
+		//3.执行删除业务
+		//3.1定义请求参数
+		var id = $(this).parents("tr").data("id");
+		console.log(id)
+		var param = {
+			"id" : id
+		};
+		//3.2定义请求url
+		var url = "comment/doDeleteObjectById";
+		//3.3发送异步请求执行删除操作
+		$.post(url, param, function(result) {
+			if (result.state == 1) {
+				alert(result.message);
+				//刷新分页信息
+				doFreshPage();
+				//查询重用
+				doGetObjects();
+			} else {
+				alert(result.message);
+			}
+		})
+	}
+
+	//刷新分页信息(删除之后)
+	function doFreshPage() {
+		//1.修改页码值
+		var pageCurrent = $("#pageId").data("pageCurrent");
+		var pageCount = $("#pageId").data("pageCount");
+		if (pageCurrent == pageCount && pageCurrent > 1) {
+			pageCurrent--;
+			$("#pageId").data("pageCurrent", pageCurrent);
+		}
+		//2.重新查询
+		doGetObjects();
+	}
+
+	//view=============================================
+	function doLoadEditUI() {
+		var id = $(this).parents("tr").data("id");//获取选中id
+		var params = {
+			"id" : id
+		};
+
+		var url = "comment/doFindObjectById";
+		$.getJSON(url, params, function(result) {
+			if (result.state == 1) {
+				//alert(result);
+				result.data.id = id;//在结果中动态追加id
+				$("#mainContentId").data("data", result.data.id);
+				doShowObject();//异步加载页面
+			} else {
+				alert(result.message);
+			}
+		});
+
+	}
+
+	//点击查看按钮时跳转查看
+	function doShowObject() {
+		//2.异步加载编辑页面
+		var url = "comment/userSet_comment_view";
+		$("#mainContentId").load(url, function() {
+			$(".box-title").html();
+
+		});
+	}
+</script>
+
+
+
+

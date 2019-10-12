@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.news.dao.NewsUserDao">
+	<select id="findPageObjects"
+		resultType="com.tt.news.entity.NewsUser">
+		select *
+		from news_user
+		<include refid="queryWhereId" />
+		order by createdTime desc
+		limit #{startIndex},#{pageSize}
+	</select>
+	<!-- sql元素用于定义其它元素中的共性,其它地方用到了 用include指令进行包含 -->
+	<sql id="queryWhereId">
+		<where>
+			<if test="username!=null and username!=''">
+				username like concat("%",#{username},"%")
+			</if>
+		</where>
+	</sql>
+	 <!-- 获取总记录数 -->
+   <select id="getRowCount" resultType="int">
+       		select count(*)
+		from news_user
+       <include refid="queryWhereId"/>
+   </select>
+   <!-- 用户类型改变 -->
+   <update id="roleIdById">
+		update news_user
+		set roleId=#{roleId},
+		modifiedTime=now()
+		where id=#{id}
+	</update>
+</mapper>
+
+
+
+

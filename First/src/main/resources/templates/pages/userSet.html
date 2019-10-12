@@ -1,0 +1,100 @@
+<!doctype html>
+<html class="no-js fixed-layout" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>玩转头条</title>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+  <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="bower_components/layer/skin/default/layer.css">
+  <link rel="stylesheet" href="bower_components/ztree/css/metroStyle/metroStyle.css"/>
+  <link rel="stylesheet" href="bower_components/treegrid/jquery.treegrid.css"/>
+    <link href="https://lib.baomitu.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+    <link href="https://lib.baomitu.com/font-awesome/5.8.0/css/fontawesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="dist/css/admin.css">
+    <link rel="stylesheet" href="dist/css/all.css">
+    <link rel="stylesheet" href="dist/css/user.css">
+    <link rel="stylesheet" href="dist/css/plugs_paging.css">
+    <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://lib.baomitu.com/underscore.js/1.9.1/underscore-min.js"></script>
+    <script src="https://lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+</head>
+<body>
+
+
+
+    <!--左侧-->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="userList am-list admin-sidebar-list">
+          	    <li id="" class="clickLi personalDate" ><a href="doIndexUI" >返回</a></li>
+                <li id="load-person-id" class="clickLi personalDate" ><a><i class="am-icon-credit-card-alt am-icon-fw"></i> 个人资料</a></li>
+                <li id="load-safe-id" class="clickLi basicSetting"><a><i class="am-icon-cog am-icon-fw"></i> 安全设置</a></li>
+                <li id="load-comment-id" class="clickLi commentMessage"><a><i class="am-icon-commenting am-icon-fw"></i> 评论管理</a></li>
+                <li id="load-article-id" class="clickLi leaveWord"><a><i class="am-icon-comments am-icon-fw"></i> 文章管理</a></li>
+                <li id="load-articleWrite-id" class="clickLi leaveWord"><a><i class="am-icon-comments am-icon-fw"></i> 发表文章</a></li>
+            </ul>
+            <div class="am-panel am-panel-default admin-sidebar-panel">
+                <div class="am-panel-bd">
+                    <p><span class="am-icon-bookmark"></span> 公告</p>
+                    <p>时光静好，与君语；细水流年，与君同。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧-->
+    <div class="admin-content">
+        <div class="userInfo">
+     <!-- Main content -->
+    <section id="mainContentId" class="content container-fluid">
+    </section>
+        </div>
+    </div>
+
+
+<!-- jQuery 3 -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script type="text/javascript">
+   //页面加载完成以后执行
+   $(function(){
+	   var username = document.cookie.split(";")[2].split("=")[1];
+	   //alert(username);
+	   //点击事件注册
+	   //当点击指定id对应的对象时,执行某个操作(页面加载)
+	   doLoadUI("load-person-id","userSet/userSet_person");
+	   doLoadUI("load-safe-id","userSet/userSet_safe");
+	   doLoadUI("load-comment-id","userSet/userSet_comment");
+	   doLoadUI("load-article-id","userSet/userSet_article");
+	   doLoadUI("load-articleWrite-id","userSet/userSet_article_Write");
+   });
+   //提取共性
+   function doLoadUI(id,url){
+	   $("#"+id).click(function(){
+		   //load函数为一个jquery中的异步加载函数
+		   //可以基于url异步加载资源并添加到指定位置
+		   $("#mainContentId").load(url);
+	   })   
+   }
+   
+   /* function doUpdateUsername(){
+	   var username = document.cookie.split(";")[2].split("=")[1];
+	   alert(username);
+	   
+   } */
+</script>
+</body>
+</html>

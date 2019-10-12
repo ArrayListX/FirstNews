@@ -1,0 +1,128 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>《玩转头条》玩转每日头条</title>
+
+<!--<link rel="stylesheet" href="./css/layout_5fcc025.css">-->
+<!--[if lt IE 9]>
+      <script src="//s3a.pstatp.com/toutiao/resource/ntoutiao_web/static/js/lib/es5-shim_110642e.js"></script>
+    <![endif]-->
+<!--<script src="../js/lib_d2cb17c.js" crossorigin="anonymous"></script>-->
+<link rel="stylesheet" href="dist/css/login_40bd3f7.css">
+</head>
+<body style="min-width: 1220px; overflow-x: hidden;">
+	<a href="/articles_news_society/" style="display: none;"></a>
+	<div class="y-wrap">
+		<div class="content">
+			<a class="logo-wrap" href="http://www.toutiao.com/"> <img
+				src="dist/images/logo_201f80d.png" alt="">
+			</a>
+			<div class="slogan-wrap">
+				<img src="dist/images/slogan_c6bab2f.png" alt="">
+			</div>
+			<div riot-tag="loginBox" class="loginBox">
+				<div class="login-type">
+					<div riot-tag="baseLogin" service="https://www.toutiao.com/"
+						captcha="" hidesns="">
+						<div class="baseLogin">
+
+							<div class="input-field">
+								<input id="emailId" type="text" name="email" autocomplete="off"
+									spellcheck="false" placeholder="email">
+							</div>
+							<div class="input-field">
+								<input id="usernameId" type="text" name="username"
+									autocomplete="off" spellcheck="false" placeholder="用户名">
+							</div>
+							<div class="input-field">
+								<input id="passwordId" type="password" name="password"
+									autocomplete="off" spellcheck="false" placeholder="密码">
+							</div>
+							<div class="input-field phone-code">
+								<input id="code" type="text" name="code" autocomplete="off"
+									spellcheck="false" placeholder="验证码"> <span
+									class="code-btn">获取验证码</span>
+							</div>
+							<input type="submit" name="submitBtn" class="action-btn"
+								value="注册" id="tbn1">
+
+							<ul class="sns-login">
+								<li data-pid="mail_phone" class="sns  mail-login"><span>账号</span>
+								</li>
+								<li class="sns qq-login" data-pid="qzone_sns"><span>QQ</span>
+								</li>
+								<li class="sns weixin-login" data-pid="weixin"><span>微信</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- iCheck -->
+	<script src="plugins/iCheck/icheck.min.js"></script>
+	<script src="dist/js/z_stat.php" language="JavaScript"></script>
+	<script src="dist/js/sso-toutiao.min.js"></script>
+	<script src="dist/js/core.php" charset="utf-8" type="text/javascript"></script>
+	<script>
+		$(function() {
+			$("#passwordId").click(doClickI);
+			$("#tbn1").click(doRegistUI);
+			$(".code-btn").click(doRegist);
+		});
+		function doRegistUI() {
+			var url = "user/code";
+			var params = {
+					"emailcode" : $("#code").val()
+				}
+			$.get(url, params, function(result) {
+				if(result){
+					var url = "user/doRegistUI";
+					var params = {
+						"email" : $("#emailId").val(),
+						"username" : $("#usernameId").val(),
+						"password" : $("#passwordId").val(),
+					}
+					$.post(url, params, function(result) {
+						location.href = "doIndexUI?t=" + Math.random();
+					});
+				}else{
+					alert("验证码输入错误");
+				}
+			});	
+		}
+		function doRegist() {
+			var url = "user/doRegist";
+			var params = {
+					"email" : $("#emailId").val()
+				}				
+			$.get(url,params,function(result){
+				alert(result.message);
+			});
+		}
+		function doClickI(){
+			var username1=$("#usernameId").val();
+			var params={
+					 "username":$("#usernameId").val()
+			}
+			var url="user/doLoginUI";
+			 $.post(url,params,function(result){
+				if(result.state==5){}else{
+				 if(result.data.username==username1){
+					 alert("用户名重复");
+				 }
+				}
+			 });
+		}
+	</script>
+</body>
+</html>
