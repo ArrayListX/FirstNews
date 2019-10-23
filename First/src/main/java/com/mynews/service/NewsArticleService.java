@@ -1,6 +1,6 @@
 package com.mynews.service;
 
-import com.common.vo.PageObject;
+import com.mynews.common.vo.PageObject;
 import com.mynews.entity.NewsArticle;
 import com.mynews.entity.NewsUser;
 

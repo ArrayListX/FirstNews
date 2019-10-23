@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.common.exception.ServiceException;
-import com.common.util.CodeUtils;
-import com.common.util.MailUtils;
+import com.mynews.common.exception.ServiceException;
+import com.mynews.common.util.CodeUtils;
+import com.mynews.common.util.MailUtils;
 import com.mynews.dao.NewsUserDao;
 import com.mynews.entity.NewsUser;
 import com.mynews.service.NewsUserService;

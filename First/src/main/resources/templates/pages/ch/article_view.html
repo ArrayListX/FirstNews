@@ -452,7 +452,7 @@ to {
 	  	 //添加评论
 	  	 function doSaveObject(comment,title){
 	  		 //获取cookie传过来的userId
-	  		var createdUser=document.cookie.split(";")[3].split("=")[1];
+	  		var createdUser=document.cookie.split(";")[4].split("=")[1];
 	  		 //1.param	获取数据
 	  		 var param = {"content":comment,"articleTitle":title,"createdUser":createdUser};  
 	  		 //2.url
@@ -466,7 +466,7 @@ to {
 		//评论删除
 		function doDeleteComment(){	
 			 //获取cookie传过来的userId
-	  		var createdUser=document.cookie.split(";")[3].split("=")[1];
+	  		var createdUser=document.cookie.split(";")[4].split("=")[1];
 			//确认是否删除
 			if (!confirm("确定删除选定评论吗?"))
 				return;

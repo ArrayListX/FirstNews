@@ -13,11 +13,17 @@
 	resultType="com.mynews.entity.MyNewsArticle">
 	select news_article.*,news_user.username createdUserName,news_type.typeName articleTypeName from news_article,news_user,news_type
 	where news_user.id = news_article.createdUserId and news_type.id = news_article.typeId and news_article.valid = 1
+	<include refid="queryWhereTypeName" />
 	order by readCount desc
 	</select>
 	<update id="addReadCount"
 	parameterType="int">
 	UPDATE news_article SET readCount = readCount + 1
-WHERE id=#{id}
+	WHERE id=#{id}
 	</update>
+	<sql id="queryWhereTypeName">
+			<if test="typeName!=null and typeName!=''">
+				and typeId = (select id from news_type where typeName = #{typeName})
+			</if>
+	</sql>
 </mapper>

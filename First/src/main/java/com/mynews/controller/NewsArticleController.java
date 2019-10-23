@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.common.vo.JsonResult;
-import com.common.vo.PageObject;
+import com.mynews.common.vo.JsonResult;
+import com.mynews.common.vo.PageObject;
 import com.mynews.entity.NewsArticle;
 import com.mynews.entity.NewsUser;
 import com.mynews.service.NewsArticleService;

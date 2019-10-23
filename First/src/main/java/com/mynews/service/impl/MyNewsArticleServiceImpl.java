@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.common.exception.ServiceException;
-import com.common.vo.JsonResult;
-import com.common.vo.PageObject;
+import com.mynews.common.annotation.RequiredLog;
+import com.mynews.common.exception.ServiceException;
+import com.mynews.common.vo.JsonResult;
+import com.mynews.common.vo.PageObject;
 import com.mynews.dao.MyNewsArticleDao;
 import com.mynews.entity.MyNewsArticle;
 import com.mynews.service.MyNewsArticleService;
@@ -21,14 +22,11 @@ public class MyNewsArticleServiceImpl implements MyNewsArticleService{
 
 	@Autowired
 	private MyNewsArticleDao myNewsArticleDao;
-
-	
-	
 	
 	@Override
-	public List<MyNewsArticle> findObject() {
-
-		List<MyNewsArticle> nc = myNewsArticleDao.findObject();
+	@RequiredLog("查看新闻")
+	public List<MyNewsArticle> findObject(String typeName) {
+		List<MyNewsArticle> nc = myNewsArticleDao.findObject(typeName);
 		if(nc==null)
 			throw new ServiceException("记录可能已经不存在");
 		return nc;
@@ -46,8 +44,10 @@ public class MyNewsArticleServiceImpl implements MyNewsArticleService{
 	}
 
 	@Override
+	@RequiredLog("查看文章详细")
 	public int addReadCount(Integer id) {
 		return myNewsArticleDao.addReadCount(id);
 	}
+
 
 }

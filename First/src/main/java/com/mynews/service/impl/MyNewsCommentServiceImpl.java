@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.common.exception.ServiceException;
-import com.common.vo.PageObject;
+import com.mynews.common.annotation.RequiredLog;
+import com.mynews.common.exception.ServiceException;
+import com.mynews.common.vo.PageObject;
 import com.mynews.dao.MyNewsCommentDao;
 import com.mynews.entity.MyNewsComment;
 import com.mynews.service.MyNewsCommentService;
@@ -27,6 +28,7 @@ public class MyNewsCommentServiceImpl implements MyNewsCommentService{
 	//标识作用,出现异常回滚
 	@Transactional
 	@Override
+	@RequiredLog("删除评论")
 	public int deleteObjectById(Integer id,String title,String createdUser) {
 		//根据评论id获取文章id，根据文章id获取文章用户名id,根据文章用户id获取文章用户名  
 		String articleUser = myNewsCommentDao.getArticleUser(id);
@@ -75,6 +77,7 @@ public class MyNewsCommentServiceImpl implements MyNewsCommentService{
 	 * content 评论
 	 */
 	@Transactional
+	@RequiredLog("获取评论")
 	public int saveObject(String content,String articleName,String createdUser) {
 		
 		//1.获取当前用户名

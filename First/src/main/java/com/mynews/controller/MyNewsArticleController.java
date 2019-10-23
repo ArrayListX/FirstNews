@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.common.vo.JsonResult;
-import com.common.vo.PageObject;
+import com.mynews.common.vo.JsonResult;
+import com.mynews.common.vo.PageObject;
 import com.mynews.entity.MyNewsArticle;
 import com.mynews.service.MyNewsArticleService;
 
@@ -42,9 +42,9 @@ public class MyNewsArticleController {
 	}
 	@RequestMapping("doFindObject")
 	@ResponseBody
-	public JsonResult doFindObjectsId() {
-		return new JsonResult(myNewsArticleService.findObject());
+	public JsonResult doFindObjectsId(String typeName) {
+		return new JsonResult(myNewsArticleService.findObject(typeName));
 	}
-
+	
 	
 }

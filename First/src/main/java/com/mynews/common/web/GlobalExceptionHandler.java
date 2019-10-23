@@ -1,10 +1,10 @@
-package com.common.web;
+package com.mynews.common.web;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.common.vo.JsonResult;
+import com.mynews.common.vo.JsonResult;
 
 
 /**

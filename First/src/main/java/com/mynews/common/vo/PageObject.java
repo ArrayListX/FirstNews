@@ -1,4 +1,4 @@
-package com.common.vo;
+package com.mynews.common.vo;
 import java.io.Serializable;
 import java.util.List;
 /**

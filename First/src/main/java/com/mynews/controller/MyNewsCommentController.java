@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.common.vo.JsonResult;
-import com.common.vo.PageObject;
+import com.mynews.common.vo.JsonResult;
+import com.mynews.common.vo.PageObject;
 import com.mynews.entity.MyNewsComment;
 import com.mynews.service.MyNewsCommentService;
 

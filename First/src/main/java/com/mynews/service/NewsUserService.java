@@ -6,8 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.common.vo.PageObject;
-
+import com.mynews.common.vo.PageObject;
 import com.mynews.entity.NewsUser;
 public interface NewsUserService {
 	 //根据id修改用户信息

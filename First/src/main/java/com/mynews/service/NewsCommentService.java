@@ -2,7 +2,7 @@ package com.mynews.service;
 
 import java.util.List;
 
-import com.common.vo.PageObject;
+import com.mynews.common.vo.PageObject;
 import com.mynews.entity.NewsComment;
 
 

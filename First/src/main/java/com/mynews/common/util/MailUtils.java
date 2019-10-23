@@ -1,4 +1,4 @@
-package com.common.util;
+package com.mynews.common.util;
 
 import java.util.Properties;
 
@@ -43,7 +43,7 @@ public class MailUtils{
 	    Session session = Session.getInstance(prop, new Authenticator() {
 	      // 认证信息，需要提供"用户账号","授权码"
 	      public PasswordAuthentication getPasswordAuthentication() {
-	        return new PasswordAuthentication("t_jxcui@163.com", "a123456");
+	        return new PasswordAuthentication("arraylistx@163.com", "qzf960");
 	      }
 	    });
 	    // 是否打印出debug信息
@@ -52,7 +52,7 @@ public class MailUtils{
 	    // 创建邮件
 	    Message message = new MimeMessage(session);
 	    // 邮件发送者
-	    message.setFrom(new InternetAddress("t_jxcui@163.com"));
+	    message.setFrom(new InternetAddress("arraylistx@163.com"));
 	    // 邮件接受者
 	    message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 	    // 邮件主题    

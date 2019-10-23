@@ -1,4 +1,4 @@
-package com.common.exception;
+package com.mynews.common.exception;
 
 public class ServiceException extends RuntimeException {
 

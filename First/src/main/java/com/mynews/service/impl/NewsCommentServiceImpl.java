@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.common.exception.ServiceException;
-import com.common.vo.PageObject;
+import com.mynews.common.annotation.RequiredLog;
+import com.mynews.common.exception.ServiceException;
+import com.mynews.common.vo.PageObject;
 import com.mynews.dao.NewsCommentDao;
 import com.mynews.entity.NewsComment;
 import com.mynews.service.NewsCommentService;
@@ -24,6 +25,7 @@ public class NewsCommentServiceImpl implements NewsCommentService{
 	//标识作用,出现异常回滚
 	@Transactional
 	@Override
+	@RequiredLog("删除评论")
 	public int deleteObjectById(Integer id) {
 		int rows;
 		try {
@@ -44,6 +46,7 @@ public class NewsCommentServiceImpl implements NewsCommentService{
 	/**
 	 * 分页查询
 	 */
+	@RequiredLog("查看评论")
 	public PageObject<NewsComment> findPageObjects(String createdUser, Integer pageCurrent) {
 		//1.验证当前页码值是否合法
 		if(pageCurrent==null||pageCurrent<1)
@@ -70,6 +73,7 @@ public class NewsCommentServiceImpl implements NewsCommentService{
 	 * 根据id查询评论
 	 */
 	@Override
+	@RequiredLog("查询评论")
 	public NewsComment findObjectById(Integer id) {
 		if(id==null||id<1)
 			throw new IllegalArgumentException("id值无效");

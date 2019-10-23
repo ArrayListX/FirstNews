@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mynews.dao.NewsLogDao">
+
+   <!--执行添加操作  -->
+   <insert id="insertObject">
+   	insert into new_logs
+    (username,operation,method,params,timebig,ip,createdTimedate)
+     values
+    (#{username},#{operation},#{method},#{params},#{timebig},#{ip},now()) 
+   </insert>
+
+   
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

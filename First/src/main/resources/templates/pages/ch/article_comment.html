@@ -1093,6 +1093,7 @@ to {
 		});
 		//初始化界面数据
 		function doInitEditFormData() {
+	 	
 			var id=document.cookie.split("=")[1];
 			var url="doShowId";//通过id查找
 			var params={"id":id};
@@ -1114,6 +1115,7 @@ to {
 			
 		//显示评论信息
 		function doListComments() {
+	
 			var url = "mycomment/doListComments";
 			//获取页面文章的标题
 			var title = $(".article-title").html().trim();//获取文章标题=================
@@ -1240,7 +1242,9 @@ to {
 	  	 //添加评论
 	  	 function doSaveObject(comment,title){
 	  		 //获取cookie传过来的userId
+	 
 	  		var id=document.cookie.split("=")[1];
+	  		 
 	  		 //1.param	获取数据
 	  		 var param = {"content":comment,"articleTitle":title,"userId":id};  
 	  		 //2.url

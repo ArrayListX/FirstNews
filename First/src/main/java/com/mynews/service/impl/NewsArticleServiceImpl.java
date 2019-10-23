@@ -11,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.common.exception.ServiceException;
-import com.common.vo.PageObject;
+import com.mynews.common.annotation.RequiredLog;
+import com.mynews.common.exception.ServiceException;
+import com.mynews.common.vo.PageObject;
 import com.mynews.dao.NewsArticleDao;
 import com.mynews.entity.NewsArticle;
 import com.mynews.entity.NewsUser;
@@ -27,6 +28,7 @@ public class NewsArticleServiceImpl implements NewsArticleService{
 	private NewsArticleDao newsArticleDao;
 
 	@Override
+	@RequiredLog("查看文章")
 	public PageObject<NewsArticle> findPageObjects(String title, 
 			Integer pageCurrent) {
 		//1.数据合法性验证

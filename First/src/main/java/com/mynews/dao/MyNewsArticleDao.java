@@ -23,7 +23,8 @@ public interface MyNewsArticleDao {
 	 * @param id
 	 * @return
 	 */
-	List<MyNewsArticle> findObject();
+	List<MyNewsArticle> findObject(
+			@Param("typeName") String typeName);
 	
 	/**
 	 * 通过id查找文章，获取文章数值
@@ -32,5 +33,9 @@ public interface MyNewsArticleDao {
 	 */
 	MyNewsArticle findObjectsById(
 			@Param("id") Integer id);
+	/**
+	 * 通过文章类别查找文章
+	 */
+	
 
 }

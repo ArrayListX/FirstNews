@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.common.exception.ServiceException;
-import com.common.util.CodeUtils;
-import com.common.util.MailUtils;
-import com.common.vo.JsonResult;
+import com.mynews.common.exception.ServiceException;
+import com.mynews.common.util.CodeUtils;
+import com.mynews.common.util.MailUtils;
+import com.mynews.common.vo.JsonResult;
 import com.mynews.entity.NewsUser;
 import com.mynews.service.NewsUserService;
 

@@ -1,4 +1,4 @@
-package com.common.util;
+package com.mynews.common.util;
 
 import java.util.UUID;
 
